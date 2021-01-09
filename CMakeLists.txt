@@ -5,12 +5,17 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Find Ncursesw
 find_package( PkgConfig REQUIRED )
+
 pkg_check_modules(CURSES ncursesw REQUIRED)
 pkg_check_modules(CONFIG libconfig++ REQUIRED)
 add_compile_definitions(NCURSES_WIDECHAR)
 
 include_directories( ${CURSES_INCLUDE_DIRS} )
 include_directories( ${CONFIG_INCLUDE_DIRS} )
+
+# Find PortAudio
+pkg_check_modules(PAUDIO portaudiocpp)
+include_directories( ${PAUDIO_INCLUDE_DIRS} )
 
 # Add project include/ directory
 include_directories( include/ )
@@ -30,3 +35,9 @@ set(CMAKE_INSTALL_DATAROOTDIR share/bitborn)
 
 install(TARGETS BitBorn)
 install(DIRECTORY res/ TYPE DATA)
+
+# Build with audio if available.
+if(PAUDIO_FOUND)
+  target_compile_definitions( BitBorn PUBLIC WITH_AUDIO )
+  target_link_libraries( BitBorn ${PAUDIO_LIBRARIES} )
+endif()
