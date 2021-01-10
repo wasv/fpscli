@@ -17,12 +17,17 @@ include_directories( ${CONFIG_INCLUDE_DIRS} )
 pkg_check_modules(PAUDIO portaudiocpp)
 include_directories( ${PAUDIO_INCLUDE_DIRS} )
 
+# Find PortAudio
+pkg_check_modules(SNDFILE sndfile)
+include_directories( ${SNDFILE_INCLUDE_DIRS} )
+
 # Add project include/ directory
 include_directories( include/ )
 
 # Copy map to build directory
 configure_file(res/map/walls.dat ${CMAKE_CURRENT_BINARY_DIR}/map/walls.dat COPYONLY)
 configure_file(res/map/walls.cfg ${CMAKE_CURRENT_BINARY_DIR}/map/walls.cfg COPYONLY)
+configure_file(res/sound/bg.wav ${CMAKE_CURRENT_BINARY_DIR}/sound/bg.wav COPYONLY)
 
 # Add executable target with source files listed in SOURCES variable
 file(GLOB SOURCES src/*.cpp)
@@ -37,7 +42,8 @@ install(TARGETS BitBorn)
 install(DIRECTORY res/ TYPE DATA)
 
 # Build with audio if available.
-if(PAUDIO_FOUND)
+if(PAUDIO_FOUND AND SNDFILE_FOUND)
   target_compile_definitions( BitBorn PUBLIC WITH_AUDIO )
   target_link_libraries( BitBorn ${PAUDIO_LIBRARIES} )
+  target_link_libraries( BitBorn ${SNDFILE_LIBRARIES} )
 endif()

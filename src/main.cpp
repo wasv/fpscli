@@ -44,7 +44,6 @@ int main() {
     freopen("/dev/null", "a", stderr);
 #ifdef WITH_AUDIO
     Audio audio;
-    audio.init();
 #endif
 
     // Acquire map data. Yoink.
@@ -54,7 +53,8 @@ int main() {
     auto lastFrameStart = std::chrono::steady_clock::now();
 
 #ifdef WITH_AUDIO
-    audio.start();
+    if(audio.available())
+        audio.start();
 #endif
     while (!finished) {
         // We'll need time differential per frame to calculate modification
@@ -128,7 +128,8 @@ int main() {
         std::this_thread::sleep_for(framePeriod - frameTime);
     }
 #ifdef WITH_AUDIO
-    audio.stop();
+    if(audio.available())
+        audio.stop();
 #endif
 
     endwin();

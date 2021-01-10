@@ -7,23 +7,27 @@
 
 #include <array>
 #include <portaudio.h>
+#include <sndfile.h>
 
 #define PI 3.14159265f
 
 namespace BitBorn {
 class Audio {
     const int SAMPLE_RATE{44100};
-    float phase{0.0f};
 
+    bool avail = false;
     PaStream *stream;
+    SNDFILE *audio;
+    SF_INFO info;
 
   public:
     enum State { Saw, Sine, Square };
     enum Event { Collide, Fire, Die };
 
-    bool init();
+    Audio();
     bool start();
     bool stop();
+    bool available();
 
     ~Audio();
 
