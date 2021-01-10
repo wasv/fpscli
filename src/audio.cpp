@@ -1,8 +1,9 @@
 #include "audio.h"
-#include <sndfile.h>
-#ifdef WITH_AUDIO
 
+#ifdef WITH_AUDIO
 #include <cmath>
+#include <portaudio.h>
+#include <sndfile.h>
 
 using namespace BitBorn;
 
