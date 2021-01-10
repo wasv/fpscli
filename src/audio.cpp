@@ -1,6 +1,8 @@
 #include "audio.h"
 #ifdef WITH_AUDIO
+
 #include <portaudio.h>
+#include <cmath>
 
 using namespace BitBorn;
 
@@ -16,18 +18,15 @@ int Audio::callback(const void *input, void *output, unsigned long frameCount, c
     (void)input; /* Prevent unused variable warning. */
 
     for (i = 0; i < frameCount; i++) {
-        *out++ = phase[0]; /* left */
-        *out++ = phase[1]; /* right */
-
+        phase += 1.0f/SAMPLE_RATE;
+        if(phase > 1.0f)
+            phase = 0.0f;
         /* Generate simple sawtooth phaser that ranges between -1.0 and 1.0. */
-        phase[0] += 0.01f;
-        /* When signal reaches top, drop back down. */
-        if (phase[0] >= 1.0f)
-            phase[0] -= 2.0f;
-        /* higher pitch so we can distinguish left and right. */
-        phase[1] += 0.03f;
-        if (phase[1] >= 1.0f)
-            phase[1] -= 2.0f;
+        float left = 0.5f * cos(440.0f * phase * (2 * PI));
+        float right = 0.5f * cos(480.0f * phase * (2 * PI));
+
+        *out++ = left; /* left */
+        *out++ = right; /* right */
     }
     return paContinue;
 }

@@ -8,10 +8,12 @@
 #include <array>
 #include <portaudio.h>
 
+#define PI 3.14159265f
+
 namespace BitBorn {
 class Audio {
-    const int SAMPLE_RATE = 44100;
-    std::array<float, 2> phase = {0.0, 0.0};
+    const int SAMPLE_RATE{44100};
+    float phase{0.0f};
 
     PaStream *stream;
 
