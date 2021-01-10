@@ -1,5 +1,4 @@
-#ifndef __AUDIO_H_
-#define __AUDIO_H_
+#pragma once
 
 #ifndef WITH_AUDIO
 #warning Audio disabled
@@ -37,5 +36,3 @@ class Audio {
 } // namespace BitBorn
 
 #endif // WITH_AUDIO
-
-#endif // __AUDIO_H_
