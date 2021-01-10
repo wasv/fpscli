@@ -1,3 +1,4 @@
+#include "audio.h"
 #include "graphics.h"
 #include "input.h"
 #include "map.h"
@@ -12,6 +13,7 @@
 #include <thread>
 #include <time.h>
 #include <vector>
+#include <stdio.h>
 
 using namespace BitBorn;
 
@@ -39,12 +41,21 @@ int main() {
 
     Graphics graphics(120, 40, (3.14159f / 4.0f), 32.0f); // Initialize graphics
 
+    freopen("/dev/null", "a", stderr);
+#ifdef WITH_AUDIO
+    Audio audio;
+    audio.init();
+#endif
+
     // Acquire map data. Yoink.
     std::array<int, 2> mapDimensions = map.getDimensions();
     std::string mapString = map.getMap();
 
     auto lastFrameStart = std::chrono::steady_clock::now();
 
+#ifdef WITH_AUDIO
+    audio.start();
+#endif
     while (!finished) {
         // We'll need time differential per frame to calculate modification
         // to movement speeds, to ensure consistant movement, as ray-tracing
@@ -116,6 +127,9 @@ int main() {
         auto frameTime = std::chrono::steady_clock::now() - frameStart;
         std::this_thread::sleep_for(framePeriod - frameTime);
     }
+#ifdef WITH_AUDIO
+    audio.stop();
+#endif
 
     endwin();
     return 0;
