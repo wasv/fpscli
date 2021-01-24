@@ -10,10 +10,10 @@
 #include <cmath>
 #include <iostream>
 #include <ncurses.h>
+#include <stdio.h>
 #include <thread>
 #include <time.h>
 #include <vector>
-#include <stdio.h>
 
 using namespace BitBorn;
 
@@ -53,7 +53,7 @@ int main() {
     auto lastFrameStart = std::chrono::steady_clock::now();
 
 #ifdef WITH_AUDIO
-    if(audio.available())
+    if (audio.available())
         audio.start();
 #endif
     while (!finished) {
@@ -128,7 +128,7 @@ int main() {
         std::this_thread::sleep_for(framePeriod - frameTime);
     }
 #ifdef WITH_AUDIO
-    if(audio.available())
+    if (audio.available())
         audio.stop();
 #endif
 

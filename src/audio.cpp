@@ -19,9 +19,9 @@ int Audio::callback(const void *input, void *output, unsigned long frameCount, c
 
     num_read = sf_read_float(audio, out, frameCount);
 
-    if(num_read < frameCount ) {
+    if (num_read < frameCount) {
         sf_seek(audio, 0, SF_SEEK_SET);
-        sf_read_float(audio, out+num_read, frameCount - num_read);
+        sf_read_float(audio, out + num_read, frameCount - num_read);
     }
 
     return paContinue;
@@ -41,11 +41,7 @@ Audio::Audio() {
     }
 
     /* Open an audio I/O stream. */
-    err = Pa_OpenDefaultStream(&stream, 0,       /* no input channels */
-                               1,                /* mono output */
-                               paFloat32,        /* 32 bit floating point output */
-                               SAMPLE_RATE, 256, /* frames per buffer */
-                               &audio_callback, this);
+    err = Pa_OpenDefaultStream(&stream, 0, 1, paFloat32, SAMPLE_RATE, 256, &audio_callback, this);
     if (err != paNoError) {
         return;
     }
