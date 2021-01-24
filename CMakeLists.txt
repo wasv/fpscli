@@ -43,7 +43,6 @@ install(DIRECTORY res/ TYPE DATA)
 # Build with audio if available.
 if(PAUDIO_FOUND AND SNDFILE_FOUND)
   target_compile_definitions( BitBorn PUBLIC WITH_AUDIO )
-  target_link_libraries( BitBorn ${PAUDIO_LIBRARIES} )
-  target_link_libraries( BitBorn ${SNDFILE_LIBRARIES} )
+  target_link_libraries( BitBorn ${PAUDIO_LIBRARIES} ${SNDFILE_LIBRARIES})
   configure_file(res/sound/bg.wav ${CMAKE_CURRENT_BINARY_DIR}/sound/bg.wav COPYONLY)
 endif()
