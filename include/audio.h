@@ -7,6 +7,7 @@
 #include <array>
 #include <portaudio.h>
 #include <sndfile.h>
+#include <string>
 
 #define PI 3.14159265f
 
@@ -23,7 +24,7 @@ class Audio {
     enum State { Saw, Sine, Square };
     enum Event { Collide, Fire, Die };
 
-    Audio();
+    Audio(std::string snddir);
     bool start();
     bool stop();
     bool available();

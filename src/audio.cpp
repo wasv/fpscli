@@ -28,10 +28,11 @@ int Audio::callback(const void *input, void *output, unsigned long frameCount, c
     return paContinue;
 }
 
-Audio::Audio() {
+Audio::Audio(std::string snddir) {
     PaError err;
 
-    audio = sf_open("sound/bg.wav", SFM_READ, &info);
+    std::string bgfile = snddir + "/bg.wav";
+    audio = sf_open(bgfile.c_str(), SFM_READ, &info);
     if (audio == NULL) {
         return;
     }

@@ -23,7 +23,7 @@ bool finished = false;
 bool showHUD = false;
 
 int main() {
-    std::string datadir = "./";
+    std::string datadir = ".";
 
     char *cDatadir = std::getenv("BITBORN_DATADIR");
     if (cDatadir != nullptr) {
@@ -43,7 +43,7 @@ int main() {
 
     freopen("/dev/null", "a", stderr);
 #ifdef WITH_AUDIO
-    Audio audio;
+    Audio audio = Audio(datadir + "/sound");
 #endif
 
     // Acquire map data. Yoink.
